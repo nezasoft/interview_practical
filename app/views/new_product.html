@@ -1,0 +1,164 @@
+<?php
+require_once('../config/db_connect.php');
+require_once('../modules/db_operations.php');
+
+
+$ops = new DbOperations($db_conn);
+
+$query = "SELECT id, curr_desc FROM currency ORDER BY curr_desc ASC";
+$stat = $ops->getData($query);
+$row_count = $stat->rowCount();
+if($row_count>=1){
+    $rows = $stat->fetchAll(PDO::FETCH_ASSOC);
+}
+
+?>
+<div class="row" style="margin:10px; padding:10px;">
+    <div class="col-md-4">
+        <h5>   Create New Product</h5>
+        <hr/>
+    
+         
+              <div class="form-group">
+                <label for="Product Name">Product Name</label>
+                <input type="text" autocomplete="off" class="form-control" id="Product" placeholder="Enter Product Name">
+                <small id="product_error" class="form-text text-muted"><font color="red">Enter Product Name</font></small>
+              </div>
+              <div class="form-group">
+                <label for="Product Code">Product Code</label>
+                <input type="text" autocomplete="off" class="form-control" id="ProductCode" placeholder="Enter Product Code">
+                <small id="product_code_error" class="form-text text-muted"><font color="red">Enter Product Code</font></small>
+              </div>
+              <div class="form-group">
+                <label for="Minimum Amount">Min. Amount</label>
+                <input type="text" autocomplete="off" class="form-control" id="MinAmount" placeholder="Enter Minimum Amount">
+                <small id="min_amount_error" class="form-text text-muted"><font color="red">Enter Minimum Amount</font></small>
+              </div>
+              <div class="form-group">
+              <label for="Interest Rate">Interest Rate</label>
+              <input type="text" autocomplete="off" class="form-control" id="IntRate" placeholder="Enter Interest Rate">
+              <small id="int_rate_error" class="form-text text-muted"><font color="red">Enter Interest Rate</font></small>
+
+              <div class="form-group">
+              <label for="Currency">Currency</label>
+              <select class="form-control" id="Currency">
+                <option value="">{Select Currency}</option>
+                <?php 
+                foreach($rows as $row){
+                ?>
+                    <opton value="<?php echo $row['id']; ?>"><?php echo $row['curr_desc']; ?></opton>
+                <?php
+                }
+                ?>
+              </select>
+              <small id="currency_error" class="form-text text-muted"><font color="red">Select Currency</font></small>
+            </div>
+            
+            <button  id="submit" class="btn btn-primary">Save</button> 	     
+          <span id="loader"><img width="50" height="50" src="img/loader.gif" />Requesting...</span>
+          <div id="response" class="pt-4">
+          </div>
+    </div>
+</div>
+<script>
+//Hide error messages
+$("#loader").hide();
+$("#product_error").hide();
+$("#product_code_error").hide();
+$("#min_amount_error").hide();
+$("#int_rate_error").hide();
+$("#currency_error").hide();
+$(document).ready(function(){
+    //hande click event
+    $("#submit").click(function(){
+        $("#response").empty();
+        product = $("#Product").val();
+        product_code = $("#ProductCode").val();
+        min_amount = $("#MinAmount").val();
+        int_rate = $("#IntRate").val();
+        currency = $("#Currency").val();
+        error = false;
+
+	
+		if(product ===''){
+		error = true;
+		$("#Product").css("border-color","#FE0F03");
+		$("#Product").focus();	
+		$("#product_error").show();
+		}else{
+		  $("#product_error").hide();
+		  $("#Product").css("border-color","#30C700");
+		 
+		}
+
+        if(product_code ===''){
+		error = true;
+		$("#ProductCode").css("border-color","#FE0F03");
+		$("#ProductCode").focus();	
+		$("#product_code_error").show();
+		}else{
+		  $("#product_code_error").hide();
+		  $("#Product_code").css("border-color","#30C700");
+		 
+		}
+		
+		if(min_amount===''){
+			error = true;
+			$("#MinAmount").css("border-color","#FE0F03");
+			$("#MinAmount").focus();	
+			$("#min_amount_error").show();
+		
+		}else{
+		    $("#min_amount_error").hide();
+		    $("#MinAmount").css("border-color","#30C700");
+		}
+ 
+        if(int_rate===''){
+			error = true;
+			$("#IntRate").css("border-color","#FE0F03");
+			$("#IntRate").focus();	
+			$("#int_rate_error").show();
+		
+		}else{
+		    $("#int_rate_error").hide();
+		    $("#IntRate").css("border-color","#30C700");
+		}
+
+        if(currency===''){
+			error = true;
+			$("#Currency").css("border-color","#FE0F03");
+			$("#Currency").focus();	
+			$("#currency_error").show();
+		
+		}else{
+		    $("#currency_error").hide();
+		    $("#Currency").css("border-color","#30C700");
+		}
+ 
+
+
+        if(error==false){	
+		$("#submit").hide();
+		$("#loader").show();
+		//data values
+		var myData =  'product=' + product +  '&product_code=' + product_code +  '&min_amount=' + min_amount +  '&int_rate=' + int_rate +  '&currency=' + currency; //build a post data structure
+		jQuery.ajax({
+		type: "POST", // Post / Get method
+		url: "process/save_product.php", //Where form data is sent on submission
+		dataType:"text", // Data type, HTML, json etc.
+		data:myData, //Form variables
+		success:function(response){
+		$("#response").append(response);
+		//display the success message
+		$('#loader').hide();
+		$('#response').show();
+		$("#submit").show();
+    }
+		});
+	}
+	
+	});
+	
+	});
+
+</script>

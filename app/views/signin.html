@@ -1,0 +1,87 @@
+
+<div class="row" style="margin:50px; padding:30px;">
+    <div class="col-md-4">
+        <h4>   Sign In to  your account</h4>
+        <hr/>
+    
+         
+              <div class="form-group">
+                <label for="Email">Email Address</label>
+                <input type="email" autocomplete="off" class="form-control" id="Email" aria-describedby="emailHelp" placeholder="Enter email">
+                <small id="email_error" class="form-text text-muted"><font color="red">Enter your Email Address</font></small>
+              </div>
+            <div class="form-group">
+              <label for="Password">Password</label>
+              <input type="password" autocomplete="off" class="form-control" id="Password" placeholder="Password">
+              <small id="password_error" class="form-text text-muted"><font color="red">Enter your Password</font></small>
+            </div>
+            <button  id="submit" class="btn btn-primary">Sign In</button> 	or <a href="?signup">Create Account</a>      
+          <span id="loader"><img width="50" height="50" src="img/loader.gif" />Requesting...</span>
+          <div id="response" class="pt-4">
+          </div>
+    </div>
+</div>
+<script>
+//Hide error messages
+$("#loader").hide();
+$("#email_error").hide();
+$("#password_error").hide();
+
+$(document).ready(function(){
+    //hande click event
+    $("#submit").click(function(){
+        $("#response").empty();
+        email = $("#Email").val();
+        password = $("#Password").val();
+        error = false;
+
+	
+		if(email ===''){
+		error = true;
+		$("#Email").css("border-color","#FE0F03");
+		$("#Email").focus();	
+		$("#email_error").show();
+		}else{
+		  $("#email_error").hide();
+		  $("#Email").css("border-color","#30C700");
+		 
+		}
+		
+		if(password===''){
+			error = true;
+			$("#Password").css("border-color","#FE0F03");
+			$("#Password").focus();	
+			$("#password_error").show();
+		
+		}else{
+		    $("#password_error").hide();
+		    $("#Password").css("border-color","#30C700");
+		}
+ 
+
+
+        if(error==false){	
+		$("#submit").hide();
+		$("#loader").show();
+		//data values
+		var myData =  'email=' + email +  '&password=' + password; //build a post data structure
+		jQuery.ajax({
+		type: "POST", // Post / Get method
+		url: "process/signin.php", //Where form data is sent on submission
+		dataType:"text", // Data type, HTML, json etc.
+		data:myData, //Form variables
+		success:function(response){
+		$("#response").append(response);
+		//display the success message
+		$('#loader').hide();
+		$('#response').show();
+		$("#submit").show();
+    }
+		});
+	}
+	
+	});
+	
+	});
+
+</script>

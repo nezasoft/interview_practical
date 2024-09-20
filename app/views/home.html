@@ -1,0 +1,73 @@
+<nav class="py-2 bg-body-tertiary border-bottom">
+    <div class="container d-flex flex-wrap">
+      <ul class="nav me-auto">
+        <li class="nav-item"><a href="#" id="products_menu" class="nav-link link-body-emphasis px-2 active" aria-current="page">Products</a></li>
+        <li class="nav-item"><a href="#" id="customers_menu" class="nav-link link-body-emphasis px-2">Customers</a></li>
+        <li class="nav-item"><a href="#" id="loans_menu" class="nav-link link-body-emphasis px-2">Loans</a></li>
+        <li class="nav-item"><a href="#" id="report_menu" class="nav-link link-body-emphasis px-2">Reports</a></li>
+    
+      </ul>
+      <ul class="nav">
+       
+        <li class="nav-item"><a href="logout?logout" class="nav-link link-body-emphasis px-2">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <span id="wait"><img width="50" height="50" src="img/loader.gif" />Loading...</span>
+  <div id="page_content">
+
+  </div>
+
+  <script>
+    $(document).ready(function(){
+    $("#wait").fadeOut(); 
+    $("#page_content").empty();
+    $("#wait").show();
+    document.title="Products";
+    $("#page_content").load("views/products.html",function(responseTxt, statusTxt, jqXHR){
+    if(statusTxt == "success"){$("#wait").hide();}
+    if(statusTxt == "error"){alert("Error: " + jqXHR.status + " " + jqXHR.statusText);}
+    });
+
+
+          $("#products_menu").click(function(){
+            $("#page_content").empty();
+            $("#wait").show();
+             document.title="Products";
+            $("#page_content").load("views/products.html",function(responseTxt, statusTxt, jqXHR){
+            if(statusTxt == "success"){$("#wait").hide();}
+            if(statusTxt == "error"){alert("Error: " + jqXHR.status + " " + jqXHR.statusText);}
+            }); 	 
+        }); 
+
+        $("#customers_menu").click(function(){
+            $("#page_content").empty();
+            $("#wait").show();
+             document.title="Customers";
+            $("#page_content").load("views/customers.html",function(responseTxt, statusTxt, jqXHR){
+            if(statusTxt == "success"){$("#wait").hide();}
+            if(statusTxt == "error"){alert("Error: " + jqXHR.status + " " + jqXHR.statusText);}
+            }); 	 
+        }); 
+
+        $("#loans_menu").click(function(){
+            $("#page_content").empty();
+            $("#wait").show();
+             document.title="Loans";
+            $("#page_content").load("views/loans.html",function(responseTxt, statusTxt, jqXHR){
+            if(statusTxt == "success"){$("#wait").hide();}
+            if(statusTxt == "error"){alert("Error: " + jqXHR.status + " " + jqXHR.statusText);}
+            }); 	 
+        });
+        $("#report_menu").click(function(){
+            $("#page_content").empty();
+            $("#wait").show();
+             document.title="Reports";
+            $("#page_content").load("views/reports2.html",function(responseTxt, statusTxt, jqXHR){
+            if(statusTxt == "success"){$("#wait").hide();}
+            if(statusTxt == "error"){alert("Error: " + jqXHR.status + " " + jqXHR.statusText);}
+            }); 	 
+        });
+});
+  </script>

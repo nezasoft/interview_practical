@@ -1,0 +1,25 @@
+<div class="row" style="padding:10px; margin:30px;"></div>
+    <div class="col-md-12">
+
+        <h5>Reports</h5>
+        <hr/>
+        <span id="wait_list"><img width="20" height="20" src="img/loader.gif" />Loading...</span>
+        <div id="page_section_report">
+
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function(){
+    $("#wait_list").fadeOut(); 
+    $("#page_section_report").empty();
+    $("#wait_list").show();
+    document.title="Reports";
+    $("#page_section_report").load("views/list_loan_report.php",function(responseTxt, statusTxt, jqXHR){
+    if(statusTxt == "success"){$("#wait_list").hide();}
+    if(statusTxt == "error"){alert("Error: " + jqXHR.status + " " + jqXHR.statusText);}
+    });
+   
+});
+
+</script>

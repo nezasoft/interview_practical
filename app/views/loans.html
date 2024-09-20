@@ -1,0 +1,56 @@
+<div class="row" style="padding:10px; margin:30px;"></div>
+    <div class="col-md-12">
+
+        <h5>Loans Management</h5>
+        <hr/>
+        <button class="btn btn-primary btn-small" id="loan_request">Loan Request</button> 
+        <button class="btn btn-secondary btn-small" id="loan_repayment">Loan Repayment</button> 
+        <span id="wait_list"><img width="20" height="20" src="img/loader.gif" />Loading...</span>
+        <div id="page_section_loans">
+
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+    $("#wait_list").fadeOut(); 
+    $("#page_section_loans").empty();
+    $("#wait_list").show();
+    document.title="Loans";
+    $("#page_section_loans").load("views/list_loan_requests.php",function(responseTxt, statusTxt, jqXHR){
+    if(statusTxt == "success"){$("#wait_list").hide();}
+    if(statusTxt == "error"){alert("Error: " + jqXHR.status + " " + jqXHR.statusText);}
+    });
+
+         $("#loan_request").click(function(){
+            $("#page_section_loans").empty();
+            $("#wait_list").show();
+             document.title="New Loan Request";
+            $("#page_section_loans").load("views/loan_request_form.php",function(responseTxt, statusTxt, jqXHR){
+            if(statusTxt == "success"){$("#wait_list").hide();}
+            if(statusTxt == "error"){alert("Error: " + jqXHR.status + " " + jqXHR.statusText);}
+            }); 	 
+        }); 
+        $("#loan_repayment").click(function(){
+            $("#page_section_loans").empty();
+            $("#wait_list").show();
+             document.title="New Loan Repayment";
+            $("#page_section_loans").load("views/new_loan_repayment.php",function(responseTxt, statusTxt, jqXHR){
+            if(statusTxt == "success"){$("#wait_list").hide();}
+            if(statusTxt == "error"){alert("Error: " + jqXHR.status + " " + jqXHR.statusText);}
+            }); 	 
+        }); 
+
+   
+});
+
+function editItem(item_id){
+    $("#page_section").empty();
+            $("#wait_list").show();
+             document.title="Edit Product";
+            $("#page_section").load("views/edit_product.php?item_id="+item_id,function(responseTxt, statusTxt, jqXHR){
+            if(statusTxt == "success"){$("#wait_list").hide();}
+            if(statusTxt == "error"){alert("Error: " + jqXHR.status + " " + jqXHR.statusText);}
+            });  
+}
+</script>

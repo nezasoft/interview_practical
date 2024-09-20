@@ -1,0 +1,48 @@
+
+
+<div class="row" style="padding:10px; margin:30px;"></div>
+    <div class="col-md-12">
+
+        <h5>Customers</h5>
+        <hr/>
+        <button class="btn btn-primary btn-small" id="add_new_product">Add New</button> 
+        <span id="wait_list"><img width="20" height="20" src="img/loader.gif" />Loading...</span>
+        <div id="page_section_customers">
+
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+    $("#wait_list").fadeOut(); 
+    $("#page_section_customers").empty();
+    $("#wait_list").show();
+    document.title="Customers";
+    $("#page_section_customers").load("views/list_customers.php",function(responseTxt, statusTxt, jqXHR){
+    if(statusTxt == "success"){$("#wait_list").hide();}
+    if(statusTxt == "error"){alert("Error: " + jqXHR.status + " " + jqXHR.statusText);}
+    });
+
+         $("#add_new_product").click(function(){
+            $("#page_section_customers").empty();
+            $("#wait_list").show();
+             document.title="Add Customer";
+            $("#page_section_customers").load("views/new_customer.php",function(responseTxt, statusTxt, jqXHR){
+            if(statusTxt == "success"){$("#wait_list").hide();}
+            if(statusTxt == "error"){alert("Error: " + jqXHR.status + " " + jqXHR.statusText);}
+            }); 	 
+        }); 
+
+   
+});
+
+function editItem(item_id){
+    $("#page_section_customers").empty();
+            $("#wait_list").show();
+             document.title="Edit Customer";
+            $("#page_section_customers").load("views/edit_customer.php?item_id="+item_id,function(responseTxt, statusTxt, jqXHR){
+            if(statusTxt == "success"){$("#wait_list").hide();}
+            if(statusTxt == "error"){alert("Error: " + jqXHR.status + " " + jqXHR.statusText);}
+            });  
+}
+</script>

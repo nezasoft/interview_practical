@@ -1,0 +1,156 @@
+
+<div class="row" style="margin:50px; padding:30px;">
+    <div class="col-md-4">
+        <h4>Create your account</h4>
+        <hr/>
+      
+            <div class="form-group">
+                <label for="FirstName">First Name</label>
+                <input type="text" autocomplete="off" class="form-control" id="FirstName"  placeholder="Enter First Name">
+                <small id="fname_error" class="form-text text-muted"><font color="red">Enter your First Name</font></small>
+              </div>
+              <div class="form-group">
+                <label for="FirstName">Last Name</label>
+                <input type="text" autocomplete="off" class="form-control" id="LastName"  placeholder="Enter Last Name">
+                <small id="lname_error" class="form-text text-muted"><font color="red">Enter your Last Name</font></small>
+              </div>
+              <div class="form-group">
+                <label for="Email">Email Address</label>
+                <input type="email" autocomplete="off" class="form-control" id="Email" aria-describedby="emailHelp" placeholder="Enter email">
+                <small id="email_error" class="form-text text-muted"><font color="red">Enter your Email Address</font></small>
+              </div>
+            <div class="form-group">
+              <label for="Password">Password</label>
+              <input type="password" autocomplete="off" class="form-control" id="Password" placeholder="Password">
+              <small id="password_error" class="form-text text-muted"><font color="red">Enter your Password</font></small>
+
+            </div>
+            <div class="form-group">
+                <label for="ConfirmPassword">Confirm Password</label>
+                <input type="password" class="form-control" id="ConfirmPassword" placeholder="Confirm Password">
+                <small id="confirm_error" class="form-text text-muted"><font color="red">Confirm your password</font></small>
+                <small id="match_error" class="form-text text-muted"><font color="red">Your passwords do not match</font></small>
+
+
+              </div>
+
+            <button  id="submit" class="btn btn-primary">Register</button> or <a href="?signin">Sign in to your account</a> 
+        
+          <span id="loader"><img width="50" height="50" src="img/loader.gif" />Requesting...</span>
+		  <br/>
+          <div id="response">
+
+          </div>
+
+    </div>
+
+</div>
+
+<script>
+//Hide error messages
+$("#loader").hide();
+$("#email_error").hide();
+$("#fname_error").hide();
+$("#lname_error").hide();
+$("#password_error").hide();
+$("#confirm_error").hide();
+$("#match_error").hide();
+$(document).ready(function(){
+    //hande click event
+    $("#submit").click(function(){
+        $("#response").empty();
+        email = $("#Email").val();
+        password = $("#Password").val();
+        password2 = $("#ConfirmPassword").val();
+        fname = $("#FirstName").val();
+        lname = $("#LastName").val();
+        error = false;
+
+        if(fname ===''){
+		error = true;
+		$("#FirstName").css("border-color","#FE0F03");
+		$("#FirstName").focus();	
+		$("#fname_error").show();
+		}else{
+		  $("#fname_error").hide();
+		  $("#FirstName").css("border-color","#30C700");
+		 
+		}
+        if(lname ===''){
+		error = true;
+		$("#LastName").css("border-color","#FE0F03");
+		$("#LastName").focus();	
+		$("#lname_error").show();
+		}else{
+		  $("#lname_error").hide();
+		  $("#LastName").css("border-color","#30C700");
+		 
+		}
+	
+		if(email ===''){
+		error = true;
+		$("#Email").css("border-color","#FE0F03");
+		$("#Email").focus();	
+		$("#email_error").show();
+		}else{
+		  $("#email_error").hide();
+		  $("#Email").css("border-color","#30C700");
+		 
+		}
+		
+		if(password===''){
+			error = true;
+			$("#Password").css("border-color","#FE0F03");
+			$("#Password").focus();	
+			$("#password_error").show();
+		
+		}else{
+		    $("#password_error").hide();
+		    $("#Password").css("border-color","#30C700");
+		}
+        if(password2===''){
+			error = true;
+			$("#ConfirmPassword").css("border-color","#FE0F03");
+			$("#ConfirmPassword").focus();	
+			$("#password_error").show();
+		
+		}else{
+		    $("#password_error").hide();
+		    $("#ConfirmPassword").css("border-color","#30C700");
+		}
+
+        if(password!==password2){
+            error = true;
+			$("#ConfirmPassword").css("border-color","#FE0F03");
+			$("#ConfirmPassword").focus();	
+			$("#match_error").show();
+        }else{
+            $("#match_error").hide();
+		    $("#ConfirmPassword").css("border-color","#30C700");
+        }
+
+        if(error==false){	
+		$("#submit").hide();
+		$("#loader").show();
+		//data values
+		var myData =  'email=' + email + '&fname=' + fname + '&lname=' + lname + '&password=' + password2; //build a post data structure
+		jQuery.ajax({
+		type: "POST", // Post / Get method
+		url: "process/signup.php", //Where form data is sent on submission
+		dataType:"text", // Data type, HTML, json etc.
+		data:myData, //Form variables
+		success:function(response){
+		$("#response").append(response);
+		//display the success message
+		$('#loader').hide();
+		$('#response').show();
+		$("#submit").show();
+    }
+		});
+	}
+	
+	});
+	
+	});
+
+</script>
