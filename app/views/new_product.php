@@ -36,7 +36,7 @@ if($row_count>=1){
               </div>
 			  <div class="form-group">
                 <label for="Maximum Amount">Max. Amount</label>
-                <input type="text" value="<?php echo $data_row['max_amount']; ?>" autocomplete="off" class="form-control" id="MaxAmount" placeholder="Enter Maximum Amount">
+                <input type="text"  autocomplete="off" class="form-control" id="MaxAmount" placeholder="Enter Maximum Amount">
                 <small id="max_amount_error" class="form-text text-muted"><font color="red">Enter Maximum Amount</font></small>
               </div>
               <div class="form-group">

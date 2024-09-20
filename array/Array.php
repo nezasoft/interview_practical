@@ -7,14 +7,9 @@ class Solution{
         $batches = array_chunk($array, $limit); // Split the array into batches
         
         foreach ($batches as $batchNumber => $batch) {
-            echo "Processing Batch " . ($batchNumber + 1) . ":\n";
-            
-            foreach ($batch as $record) {
-
-                foreach($batch as $key=>$val){
-                    print(" Index: ".$key. " Value: ".$val."\n");
-                }
-        
+            echo "Processing Batch " . ($batchNumber + 1) . ":\n";          
+            foreach ($batch as $key=>$val) {
+                    print("Key: ".$key." Val: ".$val."\n");    
             }
             
     
